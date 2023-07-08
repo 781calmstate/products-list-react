@@ -31,6 +31,22 @@ export const productsSlice = createSlice({
         state.products.push(action.payload);
       }
     },
+    sort: (state, action: PayloadAction<string>) => {
+      console.log(action);
+
+      const compareFn = (a: IProduct, b: IProduct) => {
+        if (action.payload === 'name') {
+          return a[action.payload].localeCompare(b[action.payload]);
+        } else if (action.payload === 'count') {
+          return b.count - a.count;
+        }
+        return 0;
+      };
+      state.products = action.payload
+        ? [...state.products].sort(compareFn)
+        : state.products;
+      console.log(state);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(init.pending, (state) => {
@@ -47,7 +63,7 @@ export const productsSlice = createSlice({
   },
 });
 
-export const { toggle } = productsSlice.actions;
+export const { toggle, sort } = productsSlice.actions;
 
 export default productsSlice.reducer;
 

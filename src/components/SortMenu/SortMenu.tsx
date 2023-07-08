@@ -1,13 +1,23 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material';
 import React from 'react';
 
 type TSortMenuProps = {
-  setSortBy: React.Dispatch<React.SetStateAction<{ sort: string }>>;
+  sortBy: string;
+  setSortBy: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export const SortMenu = ({ setSortBy }: TSortMenuProps): JSX.Element => {
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    return setSortBy({ sort: event.currentTarget.value });
+export const SortMenu = ({
+  setSortBy,
+  sortBy,
+}: TSortMenuProps): JSX.Element => {
+  const handleChange = (event: SelectChangeEvent<unknown>) => {
+    setSortBy(event.target.value as string);
   };
 
   return (
@@ -16,13 +26,13 @@ export const SortMenu = ({ setSortBy }: TSortMenuProps): JSX.Element => {
         <InputLabel id="demo-simple-select-label">Sort</InputLabel>
         <Select
           labelId="demo-simple-select-label"
-          value={name}
+          value={sortBy}
           id="demo-simple-select"
           label="sort"
-          onChange={() => handleChange}
+          onChange={(event) => handleChange(event)}
         >
-          <MenuItem>A-Z</MenuItem>
-          <MenuItem>Count</MenuItem>
+          <MenuItem value={'name'}>A-Z</MenuItem>
+          <MenuItem value={'count'}>Count</MenuItem>
         </Select>
       </FormControl>
     </div>

@@ -10,11 +10,15 @@ export const ProductsPage = (): JSX.Element => {
   );
   const dispatch = useAppDispatch();
 
-  const [sortBy, setSortBy] = useState({ sort: '' });
+  const [sortBy, setSortBy] = useState('name');
 
   useEffect(() => {
     dispatch(productsActions.init());
   }, []);
+
+  useEffect(() => {
+    dispatch(productsActions.sort(sortBy));
+  }, [sortBy]);
 
   if (loading) {
     return <Loader />;
@@ -27,7 +31,7 @@ export const ProductsPage = (): JSX.Element => {
   return (
     <div>
       <h1>Products</h1>
-      <SortMenu setSortBy={setSortBy} />
+      <SortMenu setSortBy={setSortBy} sortBy={sortBy} />
       <ProductsTable />
     </div>
   );

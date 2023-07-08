@@ -54,8 +54,8 @@ export const ProductsTable = (): JSX.Element => {
                   {product.id}
                 </TableCell>
                 <TableCell align="center">{product.name}</TableCell>
-                <TableCell align="center">{product.weight}</TableCell>
                 <TableCell align="center">{product.count}</TableCell>
+                <TableCell align="center">{product.weight}</TableCell>
               </TableRow>
             ))}
           </TableBody>
