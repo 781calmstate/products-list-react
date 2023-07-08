@@ -18,7 +18,7 @@ export const ProductsPage = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(productsActions.sort(sortBy));
-  }, [sortBy]);
+  }, [sortBy, products]);
 
   if (loading) {
     return <Loader />;

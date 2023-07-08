@@ -32,8 +32,6 @@ export const productsSlice = createSlice({
       }
     },
     sort: (state, action: PayloadAction<string>) => {
-      console.log(action);
-
       const compareFn = (a: IProduct, b: IProduct) => {
         if (action.payload === 'name') {
           return a[action.payload].localeCompare(b[action.payload]);
@@ -42,10 +40,7 @@ export const productsSlice = createSlice({
         }
         return 0;
       };
-      state.products = action.payload
-        ? [...state.products].sort(compareFn)
-        : state.products;
-      console.log(state);
+      state.products.sort(compareFn);
     },
   },
   extraReducers: (builder) => {
