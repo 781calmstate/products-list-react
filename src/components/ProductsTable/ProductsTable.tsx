@@ -11,8 +11,18 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import { DeleteButton } from '../DeleteButton';
+import { InfoButton } from '../InfoButton';
 
-export const ProductsTable = (): JSX.Element => {
+type TProducsTableProps = {
+  setIsDeletingOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setId: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export const ProductsTable = ({
+  setIsDeletingOpen,
+  setId,
+}: TProducsTableProps): JSX.Element => {
   const { products } = useAppSelector((state) => state.products);
 
   return (
@@ -42,6 +52,18 @@ export const ProductsTable = (): JSX.Element => {
               >
                 Weight&nbsp;(g)
               </TableCell>
+              <TableCell
+                align="center"
+                sx={{ fontSize: 16, fontWeight: 'bold' }}
+              >
+                &nbsp;
+              </TableCell>
+              <TableCell
+                align="center"
+                sx={{ fontSize: 16, fontWeight: 'bold' }}
+              >
+                &nbsp;
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -56,6 +78,16 @@ export const ProductsTable = (): JSX.Element => {
                 <TableCell align="center">{product.name}</TableCell>
                 <TableCell align="center">{product.count}</TableCell>
                 <TableCell align="center">{product.weight}</TableCell>
+                <TableCell align="center">
+                  <InfoButton />
+                </TableCell>
+                <TableCell align="center">
+                  <DeleteButton
+                    setIsDeletingOpen={setIsDeletingOpen}
+                    setId={setId}
+                    productId={product.id}
+                  />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
