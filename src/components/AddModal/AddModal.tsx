@@ -1,22 +1,71 @@
 import { Box, Button, Modal, TextField, Typography } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
+import { IProduct } from '../../types/model';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import * as productsActions from '../../redux/slices/productsSlice';
 
 type TAddModalProps = {
   isAddingOpen: boolean;
   setIsAddingOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+const INITIAL_PRODUCT = {
+  id: 0,
+  imageUrl: 'some url',
+  name: '',
+  count: 0,
+  size: {
+    width: 213,
+    height: 321,
+  },
+  weight: '',
+  comments: [''],
+};
+
 export const AddModal = ({
   isAddingOpen,
   setIsAddingOpen,
 }: TAddModalProps): JSX.Element => {
-  const handleClick = () => {
-    console.log('baruh');
+  const { products } = useAppSelector((state) => state.products);
+  const dispatch = useAppDispatch();
+
+  const [newProduct, setNewProduct] = useState<IProduct>(INITIAL_PRODUCT);
+
+  const { name, count, weight } = newProduct;
+
+  const maxId = [...products].sort((a, b) => b.id - a.id)[0].id;
+
+  const addProduct = (e: React.FormEvent, newProduct: IProduct) => {
+    e.preventDefault();
+
+    dispatch(productsActions.toggle(newProduct));
+
+    setNewProduct(INITIAL_PRODUCT);
+  };
+
+  const handleSave = (
+    e: React.MouseEvent<HTMLElement>,
+    newProduct: IProduct
+  ) => {
+    addProduct(e, newProduct);
+    setIsAddingOpen(false);
   };
 
   const handleClose = () => {
     setIsAddingOpen(false);
   };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setNewProduct((prev) => ({
+      ...prev,
+      [e.target.name]: typeof value === 'string' ? value : +value,
+      id: maxId + 1,
+    }));
+  };
+
+  const isSaveDisabled =
+    name.trim().length === 0 || count === 0 || weight.trim().length === 0;
   return (
     <Modal
       open={isAddingOpen}
@@ -37,12 +86,29 @@ export const AddModal = ({
             noValidate
             autoComplete="off"
           >
-            <TextField id="outlined-basic" label="Name" variant="outlined" />
-            <TextField id="outlined-basic" label="Count" variant="outlined" />
+            <TextField
+              id="outlined-basic"
+              label="Name"
+              name="name"
+              variant="outlined"
+              type="text"
+              onChange={handleChange}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Count"
+              name="count"
+              variant="outlined"
+              type="number"
+              onChange={handleChange}
+            />
             <TextField
               id="outlined-basic"
               label="Weight (g)"
+              name="weight"
               variant="outlined"
+              type="text"
+              onChange={handleChange}
             />
             <div
               style={{
@@ -52,7 +118,11 @@ export const AddModal = ({
                 padding: '10px 0 ',
               }}
             >
-              <Button variant="outlined" onClick={handleClick}>
+              <Button
+                variant="outlined"
+                disabled={isSaveDisabled}
+                onClick={(e) => handleSave(e, newProduct)}
+              >
                 Save
               </Button>
               <Button variant="outlined" color="error" onClick={handleClose}>

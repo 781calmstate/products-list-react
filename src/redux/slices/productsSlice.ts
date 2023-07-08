@@ -19,6 +19,7 @@ export const productsSlice = createSlice({
   initialState,
   reducers: {
     toggle: (state, action: PayloadAction<IProduct>) => {
+      console.log(action);
       const isExist = state.products.find(
         (product) => product.id === action.payload.id
       );
