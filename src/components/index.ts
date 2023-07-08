@@ -7,3 +7,4 @@ export * from './DeleteButton';
 export * from './DeleteModal';
 export * from './InfoButton';
 export * from './CommentItem';
+export * from './CommentModal';

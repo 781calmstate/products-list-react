@@ -8,16 +8,16 @@ import { Link, useParams } from 'react-router-dom';
 
 import { NotFoundPage } from '../NotFoundPage';
 
-import { CommentItem } from '../../components';
+import { AddModal, CommentItem, CommentModal } from '../../components';
 
 import { IComment } from '../../types/model';
-
-const INITIAL_COMMENT = { id: 0, desciption: '', date: '' };
 
 export const ProductPage = (): JSX.Element => {
   const { products } = useAppSelector((state) => state.products);
   const dispatch = useAppDispatch();
   const [comments, setComments] = useState<IComment[]>([]);
+  const [isAddingOpen, setIsAddingOpen] = useState(false);
+
   const { id } = useParams();
 
   useEffect(() => {
@@ -46,6 +46,10 @@ export const ProductPage = (): JSX.Element => {
 
   const { name, count, size, weight } = product;
 
+  const handleAddClick = () => {
+    setIsAddingOpen(true);
+  };
+
   return (
     <div style={styledContainer}>
       <div style={styledHeader}>
@@ -61,12 +65,31 @@ export const ProductPage = (): JSX.Element => {
         <br />
         Weight: {weight}
       </p>
-      <h2 style={{ textAlign: 'center' }}>Comment Section</h2>
+      <div style={styleCommentsHeader}>
+        <h2 style={{ textAlign: 'center' }}>Comment Section</h2>
+        <Button variant="outlined" onClick={handleAddClick}>
+          Add comment
+        </Button>
+      </div>
+
       <Stack spacing={2}>
         {comments.map((comment) => (
-          <CommentItem key={comment.id} comment={comment} />
+          <CommentItem
+            key={comment.id}
+            comment={comment}
+            setComments={setComments}
+          />
         ))}
       </Stack>
+
+      {isAddingOpen && (
+        <CommentModal
+          comments={comments}
+          setComments={setComments}
+          isAddingOpen={isAddingOpen}
+          setIsAddingOpen={setIsAddingOpen}
+        />
+      )}
     </div>
   );
 };
@@ -86,4 +109,10 @@ const styledHeader = {
 const styledParagraph = {
   fontSize: 20,
   lineHeight: 1.6,
+};
+
+const styleCommentsHeader = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
 };
