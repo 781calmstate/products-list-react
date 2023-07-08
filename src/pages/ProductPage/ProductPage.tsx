@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Button, Stack } from '@mui/material';
 
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import * as productsActions from '../../redux/slices/productsSlice';
+import { useAppSelector } from '../../hooks/redux';
 
 import { Link, useParams } from 'react-router-dom';
 
@@ -16,7 +15,6 @@ import { EditButton } from '../../components/UI';
 
 export const ProductPage = (): JSX.Element => {
   const { products } = useAppSelector((state) => state.products);
-  const dispatch = useAppDispatch();
   const [comments, setComments] = useState<IComment[]>([]);
   const [isAddingOpen, setIsAddingOpen] = useState(false);
   const [isEditingOpen, setIsEditingOpen] = useState(false);

@@ -1,7 +1,7 @@
 import { Box, Button, Modal, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { IProduct } from '../../types/model';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppDispatch } from '../../hooks/redux';
 import * as productsActions from '../../redux/slices/productsSlice';
 
 type TEditModalProps = {
@@ -70,7 +70,6 @@ export const EditModal = ({
         size: { ...size, [e.target.name]: value },
       }));
     }
-    console.log(editedProduct);
   };
 
   const handleSubmit = (e: React.MouseEvent<HTMLElement>) => {
