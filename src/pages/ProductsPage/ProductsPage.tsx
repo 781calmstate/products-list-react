@@ -1,50 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@mui/material';
-import { SortMenu } from '../../components';
+import { Loader, ProductsTable, SortMenu } from '../../components';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import * as productsActions from '../../redux/slices/productsSlice';
 
 export const ProductsPage = (): JSX.Element => {
+  const { products, loading, error } = useAppSelector(
+    (state) => state.products
+  );
+  const dispatch = useAppDispatch();
+
+  const [sortBy, setSortBy] = useState({ sort: '' });
+
+  useEffect(() => {
+    dispatch(productsActions.init());
+  }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (!products.length) {
+    return <div>{error}</div>;
+  }
+
   return (
     <div>
       <h1>Products</h1>
-      <SortMenu />
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat&nbsp;(g)</TableCell>
-              <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-              <TableCell align="right">Protein&nbsp;(g)</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* {rows.map((row) => (
-              <TableRow
-                key={row}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row}
-                </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
-              </TableRow>
-            ))} */}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <SortMenu setSortBy={setSortBy} />
+      <ProductsTable />
     </div>
   );
 };

@@ -1,18 +1,28 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import React from 'react';
 
-export const SortMenu = (): JSX.Element => {
+type TSortMenuProps = {
+  setSortBy: React.Dispatch<React.SetStateAction<{ sort: string }>>;
+};
+
+export const SortMenu = ({ setSortBy }: TSortMenuProps): JSX.Element => {
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    return setSortBy({ sort: event.currentTarget.value });
+  };
+
   return (
     <div>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-label">Sort</InputLabel>
         <Select
           labelId="demo-simple-select-label"
+          value={name}
           id="demo-simple-select"
-          label="Age"
+          label="sort"
+          onChange={() => handleChange}
         >
-          <MenuItem></MenuItem>
-          <MenuItem></MenuItem>
+          <MenuItem>A-Z</MenuItem>
+          <MenuItem>Count</MenuItem>
         </Select>
       </FormControl>
     </div>
