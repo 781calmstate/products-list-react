@@ -23,7 +23,11 @@ export const DeleteModal = ({
     return <p>NO PRODUCT</p>;
   }
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = async () => {
+    await fetch(`http://localhost:8080/products/${id}`, {
+      method: 'DELETE',
+    });
+
     dispatch(productsActions.toggle(product));
     setIsDeletingOpen(false);
   };

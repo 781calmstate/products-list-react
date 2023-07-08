@@ -30,7 +30,6 @@ export const productsSlice = createSlice({
       } else {
         state.products.push(action.payload);
       }
-      localStorage.setItem('productsData', JSON.stringify(state.products));
     },
     sort: (state, action: PayloadAction<string>) => {
       const compareFn = (a: IProduct, b: IProduct) => {
@@ -58,7 +57,6 @@ export const productsSlice = createSlice({
             }
           : product;
       });
-      localStorage.setItem('productsData', JSON.stringify(state.products));
     },
   },
   extraReducers: (builder) => {
@@ -82,11 +80,6 @@ export const { toggle, sort, edit } = productsSlice.actions;
 export default productsSlice.reducer;
 
 export const init = createAsyncThunk('products/fetch', async () => {
-  const productsData = JSON.parse(localStorage.getItem('productsData') || '[]');
-
-  if (productsData.length) {
-    return productsData;
-  }
   const response = await fetch('http://localhost:8080/products');
   const data = await response.json();
   return data;

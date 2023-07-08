@@ -35,8 +35,16 @@ export const AddModal = ({
 
   const maxId = [...products].sort((a, b) => b.id - a.id)[0].id;
 
-  const addProduct = (e: React.FormEvent, newProduct: IProduct) => {
+  const addProduct = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    await fetch(`http://localhost:8080/products`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ...newProduct }),
+    });
 
     dispatch(productsActions.toggle(newProduct));
 
@@ -44,7 +52,7 @@ export const AddModal = ({
   };
 
   const handleSave = (e: React.MouseEvent<HTMLElement>) => {
-    addProduct(e, newProduct);
+    addProduct(e);
     setIsAddingOpen(false);
   };
 

@@ -15,7 +15,11 @@ export const CommentItem = ({
   comment,
   setComments,
 }: TCommentItemProps): JSX.Element => {
-  const handleDeleteClick = (id: number) => {
+  const handleDeleteClick = async (id: number) => {
+    await fetch(`http://localhost:8080/comments/${id}`, {
+      method: 'DELETE',
+    });
+
     setComments((prev) => [...prev].filter((comment) => comment.id !== id));
   };
   return (

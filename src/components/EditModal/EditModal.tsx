@@ -35,7 +35,7 @@ export const EditModal = ({
   const { name, count, weight, size } = editedProduct;
   const { width, height } = size;
 
-  const editProduct = () => {
+  const editProduct = async () => {
     if (
       name.trim().length === 0 ||
       count < 0 ||
@@ -45,6 +45,15 @@ export const EditModal = ({
     ) {
       return;
     }
+
+    await fetch(`http://localhost:8080/products/${productId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ...editedProduct }),
+    });
+
     dispatch(productsActions.edit({ ...editedProduct, id: productId }));
   };
 

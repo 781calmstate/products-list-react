@@ -34,15 +34,23 @@ export const CommentModal = ({
     }));
   };
 
-  const addComment = (e: React.FormEvent, newComment: IComment) => {
+  const addComment = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    await fetch(`http://localhost:8080/comments`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ...newComment }),
+    });
 
     setComments((prev) => [...prev, newComment]);
     setNewComment(INITIAL_COMMENT);
   };
 
   const handleSave = (e: React.MouseEvent<HTMLElement>) => {
-    addComment(e, newComment);
+    addComment(e);
     setIsAddingOpen(false);
   };
 
