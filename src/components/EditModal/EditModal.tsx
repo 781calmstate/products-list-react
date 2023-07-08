@@ -50,31 +50,27 @@ export const EditModal = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    const name = e.target.name;
 
     if (value === '') {
       return;
     }
 
-    if (
-      e.target.name === 'name' ||
-      e.target.name === 'count' ||
-      e.target.name === 'weight'
-    ) {
+    if (name === 'width' || name === 'height') {
       setEditedProduct((prev) => ({
         ...prev,
-        [e.target.name]: value,
+        size: { ...size, [name]: value },
       }));
-    } else if (e.target.name === 'width' || e.target.name === 'height') {
+    } else {
       setEditedProduct((prev) => ({
         ...prev,
-        size: { ...size, [e.target.name]: value },
+        [name]: value,
       }));
     }
   };
 
   const handleSubmit = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    console.log(editedProduct);
 
     editProduct();
     setIsEditingOpen(false);
@@ -93,7 +89,7 @@ export const EditModal = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box sx={styledModalBox}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
           Add product
         </Typography>
@@ -146,14 +142,7 @@ export const EditModal = ({
               type="text"
               onChange={handleChange}
             />
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: 20,
-                padding: '10px 0 ',
-              }}
-            >
+            <div style={styledButtonContainer}>
               <Button
                 variant="outlined"
                 disabled={isSaveDisabled}
@@ -172,7 +161,7 @@ export const EditModal = ({
   );
 };
 
-const style = {
+const styledModalBox = {
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -183,4 +172,11 @@ const style = {
   boxShadow: 24,
   p: 4,
   textAlign: 'center',
+};
+
+const styledButtonContainer = {
+  display: 'flex',
+  justifyContent: 'center',
+  gap: 20,
+  padding: '10px 0 ',
 };

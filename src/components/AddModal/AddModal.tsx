@@ -43,10 +43,7 @@ export const AddModal = ({
     setNewProduct(INITIAL_PRODUCT);
   };
 
-  const handleSave = (
-    e: React.MouseEvent<HTMLElement>,
-    newProduct: IProduct
-  ) => {
+  const handleSave = (e: React.MouseEvent<HTMLElement>) => {
     addProduct(e, newProduct);
     setIsAddingOpen(false);
   };
@@ -73,7 +70,7 @@ export const AddModal = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box sx={styledModalBox}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
           Add product
         </Typography>
@@ -110,18 +107,11 @@ export const AddModal = ({
               type="text"
               onChange={handleChange}
             />
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: 20,
-                padding: '10px 0 ',
-              }}
-            >
+            <div style={styledButtonsContainer}>
               <Button
                 variant="outlined"
                 disabled={isSaveDisabled}
-                onClick={(e) => handleSave(e, newProduct)}
+                onClick={handleSave}
               >
                 Save
               </Button>
@@ -136,7 +126,7 @@ export const AddModal = ({
   );
 };
 
-const style = {
+const styledModalBox = {
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -147,4 +137,11 @@ const style = {
   boxShadow: 24,
   p: 4,
   textAlign: 'center',
+};
+
+const styledButtonsContainer = {
+  display: 'flex',
+  justifyContent: 'center',
+  gap: 20,
+  padding: '10px 0 ',
 };

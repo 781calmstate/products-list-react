@@ -22,10 +22,10 @@ export const ProductPage = (): JSX.Element => {
   const { id } = useParams();
 
   useEffect(() => {
-    commentsFetch();
+    fetchComments();
   }, []);
 
-  const commentsFetch = async () => {
+  const fetchComments = async () => {
     const response = await fetch('http://localhost:8080/comments');
     const data = await response.json();
     setComments(data);

@@ -38,21 +38,14 @@ export const DeleteModal = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box sx={styledModalBox}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
           Delete {product.name}?
         </Typography>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           This action cannot be reverted
         </Typography>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: 20,
-            padding: '10px 0 ',
-          }}
-        >
+        <div style={styledButtonsContainer}>
           <Button variant="outlined" color="error" onClick={handleDeleteClick}>
             Delete
           </Button>
@@ -65,7 +58,7 @@ export const DeleteModal = ({
   );
 };
 
-const style = {
+const styledModalBox = {
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -75,4 +68,11 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+};
+
+const styledButtonsContainer = {
+  display: 'flex',
+  justifyContent: 'center',
+  gap: 20,
+  padding: '10px 0 ',
 };

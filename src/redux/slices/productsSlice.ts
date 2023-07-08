@@ -44,7 +44,6 @@ export const productsSlice = createSlice({
       state.products.sort(compareFn);
     },
     edit: (state, action: PayloadAction<IProduct>) => {
-      console.log(action);
       state.products = state.products.map((product: IProduct) => {
         return product.id === action.payload.id
           ? {
@@ -60,9 +59,6 @@ export const productsSlice = createSlice({
           : product;
       });
       localStorage.setItem('productsData', JSON.stringify(state.products));
-    },
-    getProducts: (state, action: PayloadAction<IProduct[]>) => {
-      state.products = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -81,7 +77,7 @@ export const productsSlice = createSlice({
   },
 });
 
-export const { toggle, sort, edit, getProducts } = productsSlice.actions;
+export const { toggle, sort, edit } = productsSlice.actions;
 
 export default productsSlice.reducer;
 

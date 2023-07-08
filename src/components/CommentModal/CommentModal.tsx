@@ -36,14 +36,12 @@ export const CommentModal = ({
 
   const addComment = (e: React.FormEvent, newComment: IComment) => {
     e.preventDefault();
+
     setComments((prev) => [...prev, newComment]);
     setNewComment(INITIAL_COMMENT);
   };
 
-  const handleSave = (
-    e: React.MouseEvent<HTMLElement>,
-    newComment: IComment
-  ) => {
+  const handleSave = (e: React.MouseEvent<HTMLElement>) => {
     addComment(e, newComment);
     setIsAddingOpen(false);
   };
@@ -58,7 +56,7 @@ export const CommentModal = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box sx={styledModalBox}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
           Add comment
         </Typography>
@@ -87,18 +85,11 @@ export const CommentModal = ({
               type="text"
               onChange={handleChange}
             />
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: 20,
-                padding: '10px 0 ',
-              }}
-            >
+            <div style={styledButtonsContainer}>
               <Button
                 variant="outlined"
                 disabled={isSaveDisabled}
-                onClick={(e) => handleSave(e, newComment)}
+                onClick={handleSave}
               >
                 Save
               </Button>
@@ -113,7 +104,7 @@ export const CommentModal = ({
   );
 };
 
-const style = {
+const styledModalBox = {
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -124,4 +115,11 @@ const style = {
   boxShadow: 24,
   p: 4,
   textAlign: 'center',
+};
+
+const styledButtonsContainer = {
+  display: 'flex',
+  justifyContent: 'center',
+  gap: 20,
+  padding: '10px 0 ',
 };
