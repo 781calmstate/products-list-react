@@ -11,8 +11,8 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import { DeleteButton } from '../DeleteButton';
-import { InfoButton } from '../InfoButton';
+import { DeleteButton } from '../UI/DeleteButton';
+import { InfoButton } from '../UI/InfoButton';
 
 type TProducsTableProps = {
   setIsDeletingOpen: React.Dispatch<React.SetStateAction<boolean>>;

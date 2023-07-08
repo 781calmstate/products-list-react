@@ -30,6 +30,7 @@ export const productsSlice = createSlice({
       } else {
         state.products.push(action.payload);
       }
+      localStorage.setItem('productsData', JSON.stringify(state.products));
     },
     sort: (state, action: PayloadAction<string>) => {
       const compareFn = (a: IProduct, b: IProduct) => {
@@ -42,6 +43,27 @@ export const productsSlice = createSlice({
       };
       state.products.sort(compareFn);
     },
+    edit: (state, action: PayloadAction<IProduct>) => {
+      console.log(action);
+      state.products = state.products.map((product: IProduct) => {
+        return product.id === action.payload.id
+          ? {
+              ...product,
+              name: action.payload.name,
+              count: action.payload.count,
+              weight: action.payload.weight,
+              size: {
+                width: action.payload.size.width,
+                height: action.payload.size.height,
+              },
+            }
+          : product;
+      });
+      localStorage.setItem('productsData', JSON.stringify(state.products));
+    },
+    getProducts: (state, action: PayloadAction<IProduct[]>) => {
+      state.products = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(init.pending, (state) => {
@@ -50,6 +72,7 @@ export const productsSlice = createSlice({
     builder.addCase(init.fulfilled, (state, action) => {
       state.products = action.payload;
       state.loading = false;
+      localStorage.setItem('productsData', JSON.stringify(action.payload));
     });
     builder.addCase(init.rejected, (state) => {
       state.error = 'Oops... An error occured. Try to reload the page';
@@ -58,11 +81,16 @@ export const productsSlice = createSlice({
   },
 });
 
-export const { toggle, sort } = productsSlice.actions;
+export const { toggle, sort, edit, getProducts } = productsSlice.actions;
 
 export default productsSlice.reducer;
 
 export const init = createAsyncThunk('products/fetch', async () => {
+  const productsData = JSON.parse(localStorage.getItem('productsData') || '[]');
+
+  if (productsData.length) {
+    return productsData;
+  }
   const response = await fetch('http://localhost:8080/products');
   const data = await response.json();
   return data;

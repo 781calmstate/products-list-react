@@ -3,20 +3,23 @@ import React, { useEffect, useState } from 'react';
 import { Button, Stack } from '@mui/material';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import * as productsActions from '../../redux/slices/productsSlice';
 
 import { Link, useParams } from 'react-router-dom';
 
 import { NotFoundPage } from '../NotFoundPage';
 
-import { AddModal, CommentItem, CommentModal } from '../../components';
+import { CommentItem, CommentModal, EditModal } from '../../components';
 
 import { IComment } from '../../types/model';
+import { EditButton } from '../../components/UI';
 
 export const ProductPage = (): JSX.Element => {
   const { products } = useAppSelector((state) => state.products);
   const dispatch = useAppDispatch();
   const [comments, setComments] = useState<IComment[]>([]);
   const [isAddingOpen, setIsAddingOpen] = useState(false);
+  const [isEditingOpen, setIsEditingOpen] = useState(false);
 
   const { id } = useParams();
 
@@ -57,6 +60,7 @@ export const ProductPage = (): JSX.Element => {
           <Button variant="outlined">Back</Button>
         </Link>
         <h1>Product {name}</h1>
+        <EditButton setIsEditingOpen={setIsEditingOpen} />
       </div>
       <p style={styledParagraph}>
         Count: {count}
@@ -88,6 +92,13 @@ export const ProductPage = (): JSX.Element => {
           setComments={setComments}
           isAddingOpen={isAddingOpen}
           setIsAddingOpen={setIsAddingOpen}
+        />
+      )}
+      {isEditingOpen && (
+        <EditModal
+          isEditingOpen={isEditingOpen}
+          setIsEditingOpen={setIsEditingOpen}
+          productId={productId}
         />
       )}
     </div>

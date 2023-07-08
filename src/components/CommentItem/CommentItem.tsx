@@ -20,7 +20,13 @@ export const CommentItem = ({
   };
   return (
     <Item>
-      {comment.id}. {comment.description}
+      <div style={{ flexDirection: 'column' }}>
+        <p>
+          {comment.id}. {comment.description}
+          <br />
+          <i>Posted {comment.date}</i>
+        </p>
+      </div>
       <IconButton
         aria-label="delete"
         onClick={() => handleDeleteClick(comment.id)}
@@ -32,6 +38,9 @@ export const CommentItem = ({
 };
 
 const Item = styled(Paper)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
