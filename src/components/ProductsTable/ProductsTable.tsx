@@ -79,7 +79,7 @@ export const ProductsTable = ({
                 <TableCell align="center">{product.count}</TableCell>
                 <TableCell align="center">{product.weight}</TableCell>
                 <TableCell align="center">
-                  <InfoButton />
+                  <InfoButton productId={product.id} />
                 </TableCell>
                 <TableCell align="center">
                   <DeleteButton

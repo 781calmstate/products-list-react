@@ -10,3 +10,9 @@ export interface IProduct {
   weight: string;
   comments: string[];
 }
+
+export interface IComment {
+  id: number;
+  description: string;
+  date: string;
+}

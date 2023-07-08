@@ -11,7 +11,7 @@ export const App = (): JSX.Element => {
     <div className="App">
       <Routes>
         <Route path="/" element={<ProductsPage />} />
-        <Route path="/product:id" element={<ProductPage />} />
+        <Route path="/product/:id" element={<ProductPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
